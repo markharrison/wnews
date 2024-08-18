@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>7eed5652-3b31-4c57-9459-9a483b0143cf</UserSecretsId>
+  </PropertyGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+	<PackageReference Include="HtmlAgilityPack" Version="1.11.62" />
+	<PackageReference Include="OAuth.DotNetCore" Version="3.0.1" />
+	<PackageReference Include="System.ServiceModel.Syndication" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>

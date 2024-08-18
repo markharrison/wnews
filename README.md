@@ -1,2 +1,3 @@
-# wnews
-wnews
+# WNews
+
+Newsfeed web application	

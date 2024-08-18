@@ -1,0 +1,23 @@
+﻿@page
+@model WNews.Pages.AppConfigInfoModel
+@{
+    Layout = null; 
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>WNews - AppConfigInfo</title>
+    <style>
+        body {
+            font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"sans-serif";
+        }
+    </style>
+</head>
+<body>
+    <h1>WNews - AppConfigInfo</h1>
+    @Html.Raw(Model.strAppConfigInfoHtml)
+    <hr />
+    <a href="/">Home</a>
+</body>
+</html>

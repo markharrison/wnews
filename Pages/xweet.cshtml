@@ -1,0 +1,8 @@
+﻿@page
+@model WNews.Pages.XweetModel
+@{
+    Layout = null;
+    Response.ContentType = "application/json";
+    Response.StatusCode = 200;
+}
+@Html.Raw( Model.strResponse )
