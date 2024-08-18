@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
   
 env:
-  IMAGENAME: azure1news
+  IMAGENAME: wnews
    
 jobs:
   app-build:
