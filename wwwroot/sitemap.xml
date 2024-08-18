@@ -4,15 +4,11 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" 
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <url>
-    <loc>https://www.azure1.dev</loc>
+    <loc>https://www.watford.football</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>https://azure1.dev</loc>
+    <loc>https://watford.football</loc>
     <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://news.azure1.dev</loc>
-    <changefreq>hourly</changefreq>
   </url>
 </urlset>

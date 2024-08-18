@@ -39,7 +39,7 @@ function toggleNav() {
 var gColorScheme = "";
 
 function setHash(strHash) {
-    history.replaceState({}, "Azure 1", "#" + strHash);
+    history.replaceState({}, "Wnews", "#" + strHash);
 }
 
 function resetHash() {
@@ -125,7 +125,7 @@ function doInfo() {
 
     toggleNav();
 
-    $('#idModalTitle').html("About Azure1");
+    $('#idModalTitle').html("About Watford Football");
     $('#idModalBody').html(strHTML);
     $('#idModal').modal("show");
 
@@ -223,13 +223,6 @@ function doCallBacks() {
 }
 
 function doIndexReady() {
-
-    if (window.location.hostname.toLowerCase().indexOf("azure1.io") >= 0) {
-        var msg = "This site is moving to https://news.azure1.dev - update your bookmarks";
-        alert(msg);
-        $("body").html("<br><br>&nbsp;&nbsp;" + msg + "<br><br>&nbsp;&nbsp;<i class='iconfa15xp icon-black_fa-link'></i>&nbsp;<a href='https://news.azure1.dev'>https://news.azure1.dev</a><br><br>");
-        return;
-    }
 
     doColorScheme();
     doCallBacks();
