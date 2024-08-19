@@ -354,3 +354,4 @@ MigrationBackup/
 /appsettings.Development.json
 /package-lock.json
 .vscode/
+/Properties/ServiceDependencies/markwatford - Web Deploy/profile.arm.json
