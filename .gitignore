@@ -350,8 +350,7 @@ MigrationBackup/
 .ionide/
 
 # MH
-/Properties/launchSettings.json
+/Properties/
 /appsettings.Development.json
 /package-lock.json
 .vscode/
-/Properties/ServiceDependencies/markwatford - Web Deploy/profile.arm.json
