@@ -145,8 +145,12 @@ namespace WNews.Pages
 
                 pattern = @"<generator>(.*?)<\/generator>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, "<generator>watford.football</generator>");
+                pattern = @"<link>(.*?)<\/link>";
+                strFeed = new Regex(pattern, options).Replace(strFeed, $"<link>https://watford.football</link>", 1);
                 pattern = @"<pubDate>(.*?)<\/pubDate>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, $"<pubDate>{getPubDate()}</pubDate>", 1);
+                pattern = @"<atom:link(.*?)\/>";
+                strFeed = new Regex(pattern, options).Replace(strFeed, "");
                 pattern = @"<content:encoded>(.*?)<\/content:encoded>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, "");
                 pattern = @"<itunes:author(.*?)<\/itunes:author>";
