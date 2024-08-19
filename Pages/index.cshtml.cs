@@ -14,6 +14,7 @@ using Microsoft.VisualBasic;
 using Microsoft.Extensions.Primitives;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WNews.Pages
 {
@@ -35,7 +36,7 @@ namespace WNews.Pages
             _httpClientFactory = httpClientFactory;
         }
 
-        private async Task<string> getRSS(String uri)
+        private async Task<string> getRSS(string uri)
         {
             string _strXML;
 
@@ -120,6 +121,56 @@ namespace WNews.Pages
             return string.Empty;
         }
 
+        private string doAddLink(string strLink, string strTitle, string strIcon)
+        {
+            StringBuilder htmlLinkBuilder = new StringBuilder();
+            htmlLinkBuilder.Append("<div class='linktablerow'>");
+            htmlLinkBuilder.Append($"<div onclick='window.open(\"{strLink}\", \"_blank\"); return false;' class='linktablearticlecell'>");
+            htmlLinkBuilder.Append($"<i class='iconcs iconfap icon-black_fa-{strIcon}' ></i>{strTitle}");
+            htmlLinkBuilder.Append("</div></div>");
+            return htmlLinkBuilder.ToString();
+        }
+
+        private string doLinks()
+        {
+
+            StringBuilder htmlLinksBuilder = new StringBuilder();
+
+            htmlLinksBuilder.Append("<div class='linktable'><div class='linktablebody'>");
+            htmlLinksBuilder.Append("<div class='linktablerow'><div class='linktableheadercell'><strong>Links</strong></div></div>");
+
+            htmlLinksBuilder.Append(doAddLink("http://watfordfc.com", "Watford FC", "link"));
+            htmlLinksBuilder.Append(doAddLink("https://twitter.com/search?f=tweets&q=%23watfordfc", "X Twitter", "link"));
+            htmlLinksBuilder.Append(doAddLink("http://www.newsnow.co.uk/h/Sport/Football/Championship/Watford", "NewsNow", "link"));
+            htmlLinksBuilder.Append(doAddLink("http://www.facebook.com/watfordfc", "FB Watford", "link"));
+            htmlLinksBuilder.Append(doAddLink("http://www.bbc.co.uk/sport/football/teams/watford", "BBC Watford", "link"));
+            htmlLinksBuilder.Append(doAddLink("http://www.wfcforums.com/index.php?forums/the-hornets-nest-watford-chat.128/", "WFC&nbsp;Forum", "link"));
+
+            htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>Podcasts</strong></div></div>");
+
+            htmlLinksBuilder.Append(doAddLink("https://podfollow.com/do-not-scratch-your-eyes/view", "Do Not Scratch Your Eyes", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/watfordpodcast", "From the rookery end", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://www.youtube.com/c/WD18WatfordFanChannel", "WD18 Watford Fan Channel", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/64ec9a14fcef6500114566b6", "Hornet Heaven", "videoplay"));
+
+            htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>History</strong></div></div>");
+
+            htmlLinksBuilder.Append(doAddLink("https://watford.fcdb.info/", "WatfordFCdb Match Database", "link"));
+            htmlLinksBuilder.Append(doAddLink("https://www.watfordfcarchive.co.uk/", "Watford FC Archive", "link"));
+            htmlLinksBuilder.Append(doAddLink("https://flic.kr/s/aHskH3DQm2", "Vicarage Road history", "link"));
+
+ 
+
+            //doAddLink("https://fixtur.es/en/team/watford-fc", "Fixtures import", "link");
+            //doAddLink("http://bit.ly/watfordfcnewsamz", "Amazon Watford", "link");
+            //doAddLink("https://feeds.feedburner.com/WatfordFC", "Watford.Football RSS", "rss");
+
+            htmlLinksBuilder.Append("</div></div>");
+
+            return htmlLinksBuilder.ToString();
+
+        }
+
         private async Task doPage()
         {
             string RSSFeedURL = _appconfig.FeedUrl;
@@ -137,6 +188,7 @@ namespace WNews.Pages
                 htmlBuilder.Append("<div class='linktableheadercell'><strong>Latest&nbsp;News&nbsp;-&nbsp;" + timeNow + "</strong></div>");
                 htmlBuilder.Append("</div>");
 
+                StringBuilder htmlImageBuilder = new StringBuilder();
                 List<string> imageList = new List<string>();
 
                 string? previousDay = null;
@@ -183,8 +235,6 @@ namespace WNews.Pages
                 htmlBuilder.Append("<div class='linktablerow'><div class='linktabledaycell'></div><div class='linktableseparatorcell'><hr /></div></div>");
                 htmlBuilder.Append("</div></div>");
 
-                StringBuilder htmlImageBuilder = new StringBuilder();
-
                 if (imageList.Count > 0)
                 {
                     htmlImageBuilder.Append("<div class='divimagetable'>");
@@ -203,7 +253,10 @@ namespace WNews.Pages
 
                 }
 
-                strHTML += htmlBuilder.ToString();
+                strHTML += "<div class='row'><div class='col-md-6 col-lg-5'>" + htmlBuilder.ToString() + 
+                           "</div><div class='col-md-6 col-lg-7'>" + doLinks() + 
+                           "</div></div>";
+
             }
         }
 
