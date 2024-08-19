@@ -5,10 +5,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <url>
     <loc>https://www.watford.football</loc>
-    <changefreq>daily</changefreq>
+    <changefreq>hourly</changefreq>
   </url>
   <url>
     <loc>https://watford.football</loc>
-    <changefreq>daily</changefreq>
+    <changefreq>hourly</changefreq>
   </url>
 </urlset>
