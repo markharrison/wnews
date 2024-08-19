@@ -194,7 +194,7 @@ namespace WNews.Pages
                         string imageUrl = imageList[i];
                         if (i < imageList.Count)
                         {
-                            htmlImageBuilder.Append($"<img class='divimage' src='https://images.weserv.nl/?url={imageUrl}&amp;w=280&h=140&fit=cover&a=attention ' >");   
+                            htmlImageBuilder.Append($"<img class='divimage' src='https://images.weserv.nl/?url={imageUrl}&amp;w=280&h=140&fit=cover&a=attention'>");   
                         }
                     }
                     htmlImageBuilder.Append("</div><br />");
