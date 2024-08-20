@@ -126,7 +126,7 @@ namespace WNews.Pages
             StringBuilder htmlLinkBuilder = new StringBuilder();
             htmlLinkBuilder.Append("<div class='linktablerow'>");
             htmlLinkBuilder.Append($"<div onclick='window.open(\"{strLink}\", \"_blank\"); return false;' class='linktablearticlecell'>");
-            htmlLinkBuilder.Append($"<i class='iconcs iconfap icon-black_fa-{strIcon}' ></i>{strTitle}");
+            htmlLinkBuilder.Append($"&nbsp;&nbsp;<i class='icon-fa-{strIcon} iconfap icon-black_fa-{strIcon}' ></i>{strTitle}");
             htmlLinkBuilder.Append("</div></div>");
             return htmlLinkBuilder.ToString();
         }
@@ -149,21 +149,25 @@ namespace WNews.Pages
             htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>Podcasts</strong></div></div>");
 
             htmlLinksBuilder.Append(doAddLink("https://podfollow.com/do-not-scratch-your-eyes/view", "Do Not Scratch Your Eyes", "videoplay"));
-            htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/watfordpodcast", "From the rookery end", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/watfordpodcast", "From the Rookery End", "videoplay"));
             htmlLinksBuilder.Append(doAddLink("https://www.youtube.com/c/WD18WatfordFanChannel", "WD18 Watford Fan Channel", "videoplay"));
             htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/64ec9a14fcef6500114566b6", "Hornet Heaven", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/the-watford-fc-buzz-podcast", "The Watford FC Buzz Podcast", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://www.youtube.com/channel/UCrBIFqxzun2zrM3AYVovbmw", "The Voices Of The Vic", "videoplay"));
 
             htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>History</strong></div></div>");
 
-            htmlLinksBuilder.Append(doAddLink("https://watford.fcdb.info/", "WatfordFCdb Match Database", "link"));
+            htmlLinksBuilder.Append(doAddLink("https://watford.fcdb.info/", "WFCdb Match Database", "link"));
             htmlLinksBuilder.Append(doAddLink("https://www.watfordfcarchive.co.uk/", "Watford FC Archive", "link"));
             htmlLinksBuilder.Append(doAddLink("https://flic.kr/s/aHskH3DQm2", "Vicarage Road history", "link"));
 
- 
+            htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>Shop</strong></div></div>");
+            htmlLinksBuilder.Append(doAddLink("https://www.thehornetsshop.co.uk/", "The Hornets Shop", "link"));
+            htmlLinksBuilder.Append(doAddLink("http://bit.ly/watfordfcnewsamz", "Amazon Watford", "link"));
 
-            //doAddLink("https://fixtur.es/en/team/watford-fc", "Fixtures import", "link");
-            //doAddLink("http://bit.ly/watfordfcnewsamz", "Amazon Watford", "link");
-            //doAddLink("https://feeds.feedburner.com/WatfordFC", "Watford.Football RSS", "rss");
+            htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>Other</strong></div></div>");
+            htmlLinksBuilder.Append(doAddLink("https://fixtur.es/en/team/watford-fc", "Fixtures import", "link"));
+            htmlLinksBuilder.Append(doAddLink("https://feeds.feedburner.com/WatfordFC", "Watford.Football RSS", "rss"));
 
             htmlLinksBuilder.Append("</div></div>");
 

@@ -69,6 +69,7 @@ function doColorScheme() {
         $(".linktablearticlecell").addClass("linktablecelllight").removeClass("linktablecelldark");
         $(".icon-fa-link").addClass("icon-black_fa-link").removeClass("icon-white_fa-link");
         $(".icon-fa-videoplay").addClass("icon-black_fa-videoplay").removeClass("icon-white_fa-videoplay");
+        $(".icon-fa-rss").addClass("icon-black_fa-rss").removeClass("icon-white_fa-rss");
         $(".linktableheadercell").addClass("linktablecelllight").removeClass("linktablecelldark");
         $(".linktableseparatorcell").addClass("linktablecelllight").removeClass("linktablecelldark");
         $(".linktabledaycell").addClass("linktablecelllight").removeClass("linktablecelldark");
@@ -80,6 +81,7 @@ function doColorScheme() {
         $(".linktablearticlecell").addClass("linktablecelldark").removeClass("linktablecelllight");
         $(".icon-fa-link").addClass("icon-white_fa-link").removeClass("icon-black_fa-link");
         $(".icon-fa-videoplay").addClass("icon-white_fa-videoplay").removeClass("icon-black_fa-videoplay");
+        $(".icon-fa-rss").addClass("icon-white_fa-rss").removeClass("icon-black_fa-rss");
         $(".linktableheadercell").addClass("linktablecelldark").removeClass("linktablecelllight");
         $(".linktableseparatorcell").addClass("linktablecelldark").removeClass("linktablecelllight");
         $(".linktabledaycell").addClass("linktablecelldark").removeClass("linktablecelllight");
