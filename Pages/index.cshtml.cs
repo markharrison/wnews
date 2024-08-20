@@ -154,6 +154,7 @@ namespace WNews.Pages
             htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/64ec9a14fcef6500114566b6", "Hornet Heaven", "videoplay"));
             htmlLinksBuilder.Append(doAddLink("https://shows.acast.com/the-watford-fc-buzz-podcast", "The Watford FC Buzz Podcast", "videoplay"));
             htmlLinksBuilder.Append(doAddLink("https://www.youtube.com/channel/UCrBIFqxzun2zrM3AYVovbmw", "The Voices Of The Vic", "videoplay"));
+            htmlLinksBuilder.Append(doAddLink("https://www.youtube.com/@TaylorMadeArmyTV", "Taylor Made Army TV", "videoplay"));
 
             htmlLinksBuilder.Append("<br /><div class='linktablerow'><div class='linktableheadercell'><strong>History</strong></div></div>");
 
