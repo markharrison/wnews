@@ -168,6 +168,9 @@ namespace WNews.Pages
                 pattern = @"<description>(.*?)<\/description>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, "");
 
+                pattern = @"<link>https://www.donotscra"+"tchyoureyes.com/</link>";
+                strFeed = new Regex(pattern, options).Replace(strFeed, "<link>https://shows.acast.com/do-not-scra"+"tch-your-eyes-1</link>");
+
                 imageCount = 0;
                 pattern = @"(<item\b[^>]*>)(.*?)(<\/item>)";
                 strFeed = new Regex(pattern, options).Replace(strFeed, match =>
