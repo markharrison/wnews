@@ -10,6 +10,8 @@
         private string _ConsumerSecretVal;
         private string _AccessTokenVal;
         private string _AccessTokenSecretVal;
+        private string _BSUsername;
+        private string _BSPassword;
 
         public AppConfig(IConfiguration _config)
         {
@@ -21,6 +23,8 @@
             _ConsumerSecretVal = _config.GetValue<string>("ConsumerSecret") ?? "";
             _AccessTokenVal = _config.GetValue<string>("AccessToken") ?? "";
             _AccessTokenSecretVal = _config.GetValue<string>("AccessTokenSecret") ?? "";
+            _BSUsername = _config.GetValue<string>("BSUsername") ?? "";
+            _BSPassword = _config.GetValue<string>("BSPassword") ?? "";
         }
         public string FeedUrl 
         {
@@ -61,6 +65,16 @@
         {
             get => this._AccessTokenSecretVal;
             set => this._AccessTokenSecretVal = value;
+        }
+        public string BSUsername
+        {
+            get => this._BSUsername;
+            set => this._BSUsername = value;
+        }
+        public string BSPassword
+        {
+            get => this._BSPassword;
+            set => this._BSPassword = value;
         }
     }
 }

@@ -39,7 +39,8 @@ namespace WNews.Pages
             strAppConfigInfoHtml += "ConsumerSecret: " + _appconfig.ConsumerSecret + "<br/>";
             strAppConfigInfoHtml += "AccessToken: " + _appconfig.AccessToken + "<br/>";
             strAppConfigInfoHtml += "AccessTokenSecret: " + _appconfig.AccessTokenSecret + "<br/>";
-
+            strAppConfigInfoHtml += "BSUsername: " + _appconfig.BSUsername + "<br/>";
+            strAppConfigInfoHtml += "BSPassword: " + _appconfig.BSPassword + "<br/>";
         }
     }
 }

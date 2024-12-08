@@ -141,6 +141,7 @@ namespace WNews.Pages
 
             htmlLinksBuilder.Append(doAddLink("http://watfordfc.com", "Watford FC", "link"));
             htmlLinksBuilder.Append(doAddLink("https://twitter.com/search?f=tweets&q=%23watfordfc", "X Twitter", "link"));
+            htmlLinksBuilder.Append(doAddLink("https://bsky.app/hashtag/watfordfc", "BlueSky", "link"));
             htmlLinksBuilder.Append(doAddLink("http://www.newsnow.co.uk/h/Sport/Football/Championship/Watford", "NewsNow", "link"));
             htmlLinksBuilder.Append(doAddLink("http://www.facebook.com/watfordfc", "FB Watford", "link"));
             htmlLinksBuilder.Append(doAddLink("http://www.bbc.co.uk/sport/football/teams/watford", "BBC Watford", "link"));
