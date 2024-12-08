@@ -4,6 +4,7 @@ using OAuth;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace WNews.Pages
 {
@@ -24,10 +25,20 @@ namespace WNews.Pages
             _httpClientFactory = httpClientFactory;
         }
 
-        private async Task<string> GetTwitterImageFromUrl(string url)
+        private async Task<string> GetCardImageFromUrl(string url)
         {
+
             try
             {
+                string pattern = @"^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)([a-zA-Z0-9_-]{11})$";
+                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+                Match match = regex.Match(url);
+                if (match.Success)
+                {             
+                    string videoId = match.Groups[4].Value;
+                    return $"https://i.ytimg.com/vi/{videoId}/sddefault.jpg";
+                }
+
                 using (HttpClient client = new HttpClient())
                 {
                     string htmlContent = await client.GetStringAsync(url);
@@ -274,7 +285,7 @@ namespace WNews.Pages
             }
 
             // Step 2: Upload the image and get the reference
-            string postImageUrl = await GetTwitterImageFromUrl(postLink);
+            string postImageUrl = await GetCardImageFromUrl(postLink);
             var blobRef = await BSkyUploadImage(token, postImageUrl);
             if (string.IsNullOrEmpty(blobRef))
             {
