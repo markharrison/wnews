@@ -94,7 +94,7 @@ namespace WNews.Pages
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
 
-            return "https://picsum.photos/1000/666";
+            return "https://watford.football/images/default.jpg";
         }
 
         private async Task<(string token, string did)> BSkyGetAccessToken(string username, string password)
