@@ -8,13 +8,11 @@
     <UserSecretsId>7eed5652-3b31-4c57-9459-9a483b0143cf</UserSecretsId>
   </PropertyGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-	<PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
-	<PackageReference Include="OAuth.DotNetCore" Version="3.0.1" />
-	<PackageReference Include="System.ServiceModel.Syndication" Version="9.0.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
+    <PackageReference Include="OAuth.DotNetCore" Version="3.0.1" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.0" />
   </ItemGroup>
 
 </Project>

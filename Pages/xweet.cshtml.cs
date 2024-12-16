@@ -1,5 +1,6 @@
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
 using OAuth;
 using System.Net.Http.Headers;
 using System.Text;
@@ -15,86 +16,28 @@ namespace WNews.Pages
         AppConfig _appconfig;
         public string strResponse = "";
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IMemoryCache _MemoryCache;
 
         readonly string hearts = "\U0001F49B\U00002764\uFE0F\U0001F5A4";
+        readonly string defautImage = "https://watford.football/images/default.jpg";
 
-        public XweetModel(IWebHostEnvironment env, AppConfig appconfig, IHttpClientFactory httpClientFactory)
+        public XweetModel(IWebHostEnvironment env, IMemoryCache MemoryCache, AppConfig appconfig, IHttpClientFactory httpClientFactory)
         {
             _env = env;
             _appconfig = appconfig;
             _httpClientFactory = httpClientFactory;
+            _MemoryCache = MemoryCache;
         }
 
-        private async Task<string> GetCardImageFromUrl(string url)
+        private string GetCardImage(string link)
         {
 
-            try
+            if (_MemoryCache.TryGetValue(link, out string? cardImage))
             {
-                string pattern = @"^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)([a-zA-Z0-9_-]{11})$";
-                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-                Match match = regex.Match(url);
-                if (match.Success)
-                {             
-                    string videoId = match.Groups[4].Value;
-                    return $"https://i.ytimg.com/vi/{videoId}/sddefault.jpg";
-                }
-
-                using (HttpClient client = new HttpClient())
-                {
-                    string htmlContent = await client.GetStringAsync(url);
-
-                    var htmlDoc = new HtmlDocument();
-                    htmlDoc.LoadHtml(htmlContent);
-
-                    var twitterImageMetaTag = htmlDoc.DocumentNode.SelectSingleNode("//meta[@name='twitter:image']");
-                    if (twitterImageMetaTag != null)
-                    {
-                        return twitterImageMetaTag.GetAttributeValue("content", null);
-                    }
-
-                    var twitterImageSrcMetaTag = htmlDoc.DocumentNode.SelectSingleNode("//meta[@name='twitter:image:src']");
-                    if (twitterImageSrcMetaTag != null)
-                    {
-                        return twitterImageSrcMetaTag.GetAttributeValue("content", null);
-                    }
-
-                    var ogImageMetaTag = htmlDoc.DocumentNode.SelectSingleNode("//meta[@property='og:image']");
-                    if (ogImageMetaTag != null)
-                    {
-                        return ogImageMetaTag.GetAttributeValue("content", null);
-                    }
-
-                    var ogImageSecureUrlMetaTag = htmlDoc.DocumentNode.SelectSingleNode("//meta[@property='og:image:secure_url']");
-                    if (ogImageSecureUrlMetaTag != null)
-                    {
-                        return ogImageSecureUrlMetaTag.GetAttributeValue("content", null);
-                    }
-
-                    var ogImageUrlMetaTag = htmlDoc.DocumentNode.SelectSingleNode("//meta[@property='og:image:url']");
-                    if (ogImageUrlMetaTag != null)
-                    {
-                        return ogImageUrlMetaTag.GetAttributeValue("content", null);
-                    }
-
-                    var linkImageSrcTag = htmlDoc.DocumentNode.SelectSingleNode("//link[@rel='image_src']");
-                    if (linkImageSrcTag != null)
-                    {
-                        return linkImageSrcTag.GetAttributeValue("href", null);
-                    }
-
-                    var thumbnailMetaTag = htmlDoc.DocumentNode.SelectSingleNode("//meta[@name='thumbnail']");
-                    if (thumbnailMetaTag != null)
-                    {
-                        return thumbnailMetaTag.GetAttributeValue("content", null);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                return System.Net.WebUtility.UrlDecode(cardImage) ?? defautImage;
             }
 
-            return "https://watford.football/images/default.jpg";
+            return defautImage;
         }
 
         private async Task<(string token, string did)> BSkyGetAccessToken(string username, string password)
@@ -285,7 +228,7 @@ namespace WNews.Pages
             }
 
             // Step 2: Upload the image and get the reference
-            string postImageUrl = await GetCardImageFromUrl(postLink);
+            string postImageUrl = GetCardImage(postLink);
             var blobRef = await BSkyUploadImage(token, postImageUrl);
             if (string.IsNullOrEmpty(blobRef))
             {
@@ -377,7 +320,6 @@ namespace WNews.Pages
 
             if (!string.IsNullOrEmpty(strLink) && !string.IsNullOrEmpty(strTitle))
             {
-
                 strStatusX = await PostXweet(strTitle, strLink, textTags);
 
                 strStatusBS = await BSkyPost(strTitle, strLink, textTags);  

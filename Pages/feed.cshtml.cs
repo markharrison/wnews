@@ -1,6 +1,7 @@
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Text.RegularExpressions;
 
 namespace WNews.Pages
@@ -12,7 +13,7 @@ namespace WNews.Pages
         private readonly IMemoryCache _MemoryCache;
         public string? strFeed = "";
         private readonly IHttpClientFactory _httpClientFactory;
-        int imageCount = 0;
+        readonly string defautImage = "https://watford.football/images/default.jpg";
 
         public FeedModel(IWebHostEnvironment env, IMemoryCache MemoryCache, AppConfig appconfig, IHttpClientFactory httpClientFactory)
             {
@@ -20,7 +21,6 @@ namespace WNews.Pages
             _appconfig = appconfig;
             _MemoryCache = MemoryCache;
             _httpClientFactory = httpClientFactory;
-            imageCount = 0;
         }
 
         private string getPubDate()
@@ -29,10 +29,39 @@ namespace WNews.Pages
             return pubDate.ToString("ddd',' d MMM yyyy HH':'mm':'ss") + " " + pubDate.ToString("zzzz").Replace(":", "");
         }
 
-        private string GetCardImage(string link)
+        private string GetCardImage(string link, string itemContent)
         {
             try
             {
+                string pattern = @"^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)([a-zA-Z0-9_-]{11})$";
+                Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+                Match match = regex.Match(link);
+                if (match.Success)
+                {
+                    string videoId = match.Groups[4].Value;
+                    return $"https://i.ytimg.com/vi/{videoId}/sddefault.jpg";
+                }
+
+                if (link.StartsWith("https://www.watfordfc.com"))
+                {
+                    pattern = @"<description>(.*?)<\/description>";
+                    match = Regex.Match(itemContent, pattern, RegexOptions.Singleline);
+                    if (match.Success)
+                    {
+                        string desContent = match.Groups[1].Value;
+                        pattern = @"img\s+src\s*=\s*""([^""]*)""";
+                        match = Regex.Match(desContent, pattern, RegexOptions.IgnoreCase);
+                        if (match.Success)
+                        {
+                            string imgSrcContent = match.Groups[1].Value;
+                            return imgSrcContent;
+                        }
+                    }
+
+                    return defautImage;
+                }
+
+
                 var httpClient = _httpClientFactory.CreateClient();
                 string htmlContent =  httpClient.GetStringAsync(link).GetAwaiter().GetResult();
 
@@ -86,36 +115,23 @@ namespace WNews.Pages
             {
                 string errText = $"Error getting image {ex.Message}";
                 Console.WriteLine(errText);
-                return errText;
             }
 
-            return "Null";
+            return defautImage;
         }
 
-        private string InsertCardImage(string link)
+        private string InsertCardImage(string link, string itemContent)
         {
-            if (imageCount >= 6)
+            if (_MemoryCache.TryGetValue(link, out string? cardImage))
             {
-                return "Null";
+                return cardImage ?? "Null";
             }
 
-            if (_MemoryCache.TryGetValue(link, out string? customValue))
-            {
-                return customValue ?? "Null";
-            }
+            cardImage = System.Net.WebUtility.UrlEncode(GetCardImage(link, itemContent));
 
-            customValue = GetCardImage(link);
-            customValue = System.Net.WebUtility.UrlEncode(customValue);
+            _MemoryCache.Set(link, cardImage, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(7)));
 
-            _MemoryCache.Set(link, customValue, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(7)));
-
-            if (customValue.StartsWith("http"))
-            {
-                imageCount++;
-            }
-
-
-            return customValue;
+            return cardImage;
         }
 
 
@@ -165,23 +181,27 @@ namespace WNews.Pages
                 strFeed = new Regex(pattern, options).Replace(strFeed, "");
                 pattern = @"<itunes:subtitle(.*?)<\/itunes:subtitle>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, "");
-                pattern = @"<description>(.*?)<\/description>";
+                pattern = @"<media:description(.*?)<\/media:description>";
+                strFeed = new Regex(pattern, options).Replace(strFeed, "");
+                pattern = @"<author>(.*?)<\/author>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, "");
 
                 pattern = @"<link>https://www.donotscra"+"tchyoureyes.com/</link>";
                 strFeed = new Regex(pattern, options).Replace(strFeed, "<link>https://shows.acast.com/do-not-scra"+"tch-your-eyes-1</link>");
 
-                imageCount = 0;
                 pattern = @"(<item\b[^>]*>)(.*?)(<\/item>)";
                 strFeed = new Regex(pattern, options).Replace(strFeed, match =>
                 {
                     string itemContent = match.Groups[2].Value;
                     string linkPattern = @"<link>(.*?)<\/link>";
                     string link = new Regex(linkPattern, options).Match(itemContent).Groups[1].Value;
-                    string cardimageValue = InsertCardImage(link);
+                    string cardimageValue = InsertCardImage(link,itemContent);
                     string cardimageTag = $"<cardimage>{cardimageValue}</cardimage>";
                     return $"{match.Groups[1].Value}{itemContent}{cardimageTag}{match.Groups[3].Value}";
                 });
+
+                pattern = @"<description>(.*?)<\/description>";
+                strFeed = new Regex(pattern, options).Replace(strFeed, "");
 
                 strFeed = Regex.Replace(strFeed, @"^\s*$\n|\r", string.Empty, RegexOptions.Multiline).TrimEnd();
 
