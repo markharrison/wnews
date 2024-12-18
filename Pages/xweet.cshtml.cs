@@ -305,6 +305,8 @@ namespace WNews.Pages
             string strTitle = "";
             string strLink = "";
             string textTags = "#WatfordFC";
+            bool bXTwitter = true;
+            bool bBSky = true;
 
             var query = Request.Query.ToDictionary(k => k.Key.ToLower(),
                 v => v.Value.ToString());
@@ -317,12 +319,24 @@ namespace WNews.Pages
             {
                 strTitle = query["title"].Trim().Replace("?", "").Replace("&", "");
             }
+            if (query.ContainsKey("flags"))
+            {
+                var strFlags = query["flags"].Trim().ToLower();
+                bXTwitter = strFlags.Contains('x');
+                bBSky = strFlags.Contains('b');
+            }
 
             if (!string.IsNullOrEmpty(strLink) && !string.IsNullOrEmpty(strTitle))
             {
-                strStatusX = await PostXweet(strTitle, strLink, textTags);
+                if (bXTwitter)
+                {
+                    strStatusX = await PostXweet(strTitle, strLink, textTags);
+                }
 
-                strStatusBS = await BSkyPost(strTitle, strLink, textTags);  
+                if (bBSky)
+                {
+                    strStatusBS = await BSkyPost(strTitle, strLink, textTags);
+                }
             }
 
             var response = new
@@ -334,6 +348,8 @@ namespace WNews.Pages
             };
 
             strResponse = JsonSerializer.Serialize(response);
+
+            _appconfig.AddPost(response.status + " : " + strLink);
 
             await Task.Run(() => { });
 

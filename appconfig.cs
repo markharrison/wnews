@@ -13,6 +13,9 @@
         private string _BSUsername;
         private string _BSPassword;
 
+        private readonly Queue<string> _Posts;
+        private readonly int _maxPosts;
+
         public AppConfig(IConfiguration _config)
         {
             _FeedUrlVal = _config.GetValue<string>("FeedUrl") ?? "";
@@ -25,8 +28,11 @@
             _AccessTokenSecretVal = _config.GetValue<string>("AccessTokenSecret") ?? "";
             _BSUsername = _config.GetValue<string>("BSUsername") ?? "";
             _BSPassword = _config.GetValue<string>("BSPassword") ?? "";
+
+            _Posts = new Queue<string>();
+            _maxPosts = 30;
         }
-        public string FeedUrl 
+        public string FeedUrl
         {
             get => this._FeedUrlVal;
             set => this._FeedUrlVal = value;
@@ -75,6 +81,20 @@
         {
             get => this._BSPassword;
             set => this._BSPassword = value;
+        }
+
+        public void AddPost(string post)
+        {
+            if (_Posts.Count >= _maxPosts)
+            {
+                _Posts.Dequeue();
+            }
+            _Posts.Enqueue(post);
+        }
+
+        public IEnumerable<string> GetPosts()
+        {
+            return _Posts.ToArray();
         }
     }
 }
