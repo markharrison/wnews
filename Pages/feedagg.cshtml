@@ -1,0 +1,8 @@
+﻿@page
+@model WNews.Pages.FeedaggModel
+@{
+    Layout = null;
+    Response.ContentType = "application/xml";
+    Response.StatusCode = 200;
+}
+@Html.Raw(Model.strFeed)

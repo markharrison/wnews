@@ -40,13 +40,20 @@ namespace WNews.Pages
             strAppConfigInfoHtml += "AccessToken: " + _appconfig.AccessToken + "<br/>";
             strAppConfigInfoHtml += "AccessTokenSecret: " + _appconfig.AccessTokenSecret + "<br/>";
             strAppConfigInfoHtml += "BSUsername: " + _appconfig.BSUsername + "<br/>";
-            strAppConfigInfoHtml += "BSPassword: " + _appconfig.BSPassword + "<br/><br/>";
+            strAppConfigInfoHtml += "BSPassword: " + _appconfig.BSPassword + "<br/>";
+
+            strAppConfigInfoHtml += "RSS Feeds:<br/>";
+            string[] rssFeeds = _appconfig.RSSFeeds;
+            foreach (var feed in rssFeeds)
+            {
+                strAppConfigInfoHtml += "&bull;&nbsp;" + feed + "<br/>";
+            }   
 
             strAppConfigInfoHtml += "Posts:<br/>";
             var posts = _appconfig.GetPosts();
             foreach (var post in posts)
             {
-                strAppConfigInfoHtml += post + "<br/>";
+                strAppConfigInfoHtml += "&bull;&nbsp;" + post + "<br/>";
             }
         }
     }

@@ -12,6 +12,7 @@
         private string _AccessTokenSecretVal;
         private string _BSUsername;
         private string _BSPassword;
+        private string[] _RSSFeeds;
 
         private readonly Queue<string> _Posts;
         private readonly int _maxPosts;
@@ -28,6 +29,9 @@
             _AccessTokenSecretVal = _config.GetValue<string>("AccessTokenSecret") ?? "";
             _BSUsername = _config.GetValue<string>("BSUsername") ?? "";
             _BSPassword = _config.GetValue<string>("BSPassword") ?? "";
+            _RSSFeeds = _config.GetSection("RssFeeds").Get<string[]>() ?? new string[0];
+
+            //            _RSSFeeds = _config.GetValue<string>("RSSFeeds") ?? "";
 
             _Posts = new Queue<string>();
             _maxPosts = 30;
@@ -81,6 +85,11 @@
         {
             get => this._BSPassword;
             set => this._BSPassword = value;
+        }
+        public string[] RSSFeeds
+        {
+            get => this._RSSFeeds;
+            set => this._RSSFeeds = value;
         }
 
         public void AddPost(string post)
