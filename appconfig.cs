@@ -1,4 +1,7 @@
-﻿namespace WNews
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+
+namespace WNews
 {
     public class AppConfig
     {
@@ -29,9 +32,41 @@
             _AccessTokenSecretVal = _config.GetValue<string>("AccessTokenSecret") ?? "";
             _BSUsername = _config.GetValue<string>("BSUsername") ?? "";
             _BSPassword = _config.GetValue<string>("BSPassword") ?? "";
-            _RSSFeeds = _config.GetSection("RssFeeds").Get<string[]>() ?? new string[0];
 
-            //            _RSSFeeds = _config.GetValue<string>("RSSFeeds") ?? "";
+            try
+            {
+                string json = File.ReadAllText("rssfeeds.json");
+                using JsonDocument document = JsonDocument.Parse(json);
+                
+                if (document.RootElement.TryGetProperty("feeds", out JsonElement feedsElement) && 
+                    feedsElement.ValueKind == JsonValueKind.Array)
+                {
+                    List<string> feedUrls = new();
+                    
+                    foreach (JsonElement feed in feedsElement.EnumerateArray())
+                    {
+                        if (feed.TryGetProperty("url", out JsonElement urlElement) && 
+                            urlElement.ValueKind == JsonValueKind.String)
+                        {
+                            string? url = urlElement.GetString();
+                            if (url != null)
+                            {
+                                feedUrls.Add(url);
+                            }
+                        }
+                    }
+                    
+                    _RSSFeeds = feedUrls.ToArray();
+                }
+                else
+                {
+                    _RSSFeeds = Array.Empty<string>();
+                }
+            }
+            catch
+            {
+                _RSSFeeds = Array.Empty<string>();
+            }
 
             _Posts = new Queue<string>();
             _maxPosts = 30;

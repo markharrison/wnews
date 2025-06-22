@@ -1,0 +1,50 @@
+{
+  "author": "WNews",
+  "feeds": [
+    {
+      "name": "WatfordFCofficial",
+      "url": "https://www.youtube.com/feeds/videos.xml?user=WatfordFCofficial"
+    },
+    {
+      "name": "WD18: Watford Fan Channel",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCz2whomCBwprF_xT_tNug5Q"
+    },
+    {
+      "name": "Watford Observer - Watford FC",
+      "url": "https://www.watfordobserver.co.uk/sport/watfordfc/watfordfcnews/rss/"
+    },
+    {
+      "name": "Watford FC RSS Feed",
+      "url": "https://www.watfordfc.com/rss.xml"
+    },
+    {
+      "name": "Voices of the Vic",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrBIFqxzun2zrM3AYVovbmw"
+    },
+    {
+      "name": "The Watford FC Buzz Podcast",
+      "url": "https://feeds.acast.com/public/shows/the-watford-fc-buzz-podcast"
+    },
+    {
+      "name": "Taylor Made Army TV",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCcwLp46noNn95v2WxHanQhg"
+    },
+    {
+      "name": "BHaPPY (not BSaD)",
+      "url": "https://bhappy.wordpress.com/feed/"
+    },
+    {
+      "name": "Do Not Scratch Your Eyes",
+      "url": "https://feeds.acast.com/public/shows/639c83af922d570011a3e905"
+    },
+    {
+      "name": "Hornet Heaven",
+      "url": "https://feeds.acast.com/public/shows/hornetheaven"
+    },
+    {
+      "name": "From The Rookery End",
+      "url": "https://feeds.acast.com/public/shows/628e15899f8b3900138cb94a"
+    }
+  ]
+}
+
